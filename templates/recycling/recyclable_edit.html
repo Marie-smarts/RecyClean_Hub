@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Recyclable - EcoRecycle{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header text-center py-4">
+                    <h2><i class="bi bi-pencil"></i> Edit Recyclable Item</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Material Type *</label>
+                            {{ form.material_type }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Weight (in KG) *</label>
+                            {{ form.weight }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Description *</label>
+                            {{ form.description }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Drop-off Center *</label>
+                            {{ form.drop_off_center }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Upload New Image (Optional)</label>
+                            {{ form.image }}
+                            {% if item.image %}
+                                <p class="text-muted mt-2">Current image:</p>
+                                <img src="{{ item.image.url }}" class="img-thumbnail" style="max-width: 200px;" alt="Current">
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-eco btn-lg">
+                                <i class="bi bi-check-circle"></i> Update Item
+                            </button>
+                            <a href="{% url 'my_recyclables' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

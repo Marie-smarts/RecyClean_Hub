@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Drop-off Centers - EcoRecycle{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold"><i class="bi bi-geo-alt-fill"></i> Drop-off Centers</h1>
+        <p class="lead text-muted">Find the nearest location to drop off your recyclables</p>
+    </div>
+
+    <!-- Centers Grid -->
+    <div class="row g-4">
+        {% for center in centers %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card center-card h-100 shadow-sm">
+                {% if center.image %}
+                    <img src="{{ center.image.url }}" alt="{{ center.name }}">
+                {% else %}
+                    <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #52b788, #2d7a3e); 
+                                display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 15px;">
+                        <i class="bi bi-shop" style="font-size: 4rem; color: white;"></i>
+                    </div>
+                {% endif %}
+                
+                <h5 class="mb-2">
+                    <i class="bi bi-shop-window"></i> {{ center.name }}
+                </h5>
+                
+                <div class="mb-2">
+                    <span class="center-badge {% if center.is_active %}center-active{% else %}center-inactive{% endif %}">
+                        {% if center.is_active %}
+                            <i class="bi bi-check-circle"></i> Active
+                        {% else %}
+                            <i class="bi bi-x-circle"></i> Inactive
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="mb-2">
+                    <i class="bi bi-geo-alt text-danger"></i>
+                    <small>{{ center.address }}</small>
+                </div>
+                
+                <div class="mb-3">
+                    <i class="bi bi-telephone text-success"></i>
+                    <small><a href="tel:{{ center.phone }}" class="text-decoration-none">{{ center.phone }}</a></small>
+                </div>
+                
+                <div class="mb-3">
+                    <i class="bi bi-person text-primary"></i>
+                    <small>Owner: {{ center.owner.get_full_name }}</small>
+                </div>
+                
+                <div class="mt-auto">
+                    {% if center.is_active %}
+                        <a href="tel:{{ center.phone }}" class="btn btn-eco w-100">
+                            <i class="bi bi-telephone"></i> Contact Center
+                        </a>
+                    {% else %}
+                        <button class="btn btn-secondary w-100" disabled>
+                            Currently Unavailable
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state">
+                <i class="bi bi-shop"></i>
+                <h5 class="mt-3">No drop-off centers found</h5>
+                <p>Check back later or contact support for more information.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

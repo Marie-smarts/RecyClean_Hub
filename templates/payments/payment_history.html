@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment History - EcoRecycle{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4"><i class="bi bi-wallet"></i> Payment History</h2>
+    
+    {% if payments %}
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Phone</th>
+                                <th>M-Pesa Code</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                            <tr>
+                                <td>{{ payment.created_at|date:"M d, Y H:i" }}</td>
+                                <td>{{ payment.get_payment_type_display }}</td>
+                                <td><strong>KES {{ payment.amount }}</strong></td>
+                                <td>{{ payment.phone_number }}</td>
+                                <td>{{ payment.mpesa_code|default:"-" }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if payment.status == 'completed' %}bg-success
+                                        {% elif payment.status == 'pending' %}bg-warning
+                                        {% elif payment.status == 'failed' %}bg-danger
+                                        {% else %}bg-info{% endif %}">
+                                        {{ payment.get_status_display }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="bi bi-wallet"></i>
+            <h5 class="mt-3">No payment history yet</h5>
+            <p>Your transactions will appear here.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Community Leaderboard - EcoRecycle{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold"><i class="bi bi-trophy-fill text-warning"></i> Community Leaderboard</h1>
+        <p class="lead text-muted">Top recyclers making a difference in our community</p>
+    </div>
+
+    <!-- Top 3 Podium -->
+    <div class="row mb-5 justify-content-center">
+        {% if leaderboard|length >= 2 %}
+        <!-- 2nd Place -->
+        <div class="col-md-3 order-md-1 mb-3">
+            <div class="card text-center shadow" style="background: linear-gradient(135deg, #e8e8e8, #c0c0c0);">
+                <div class="card-body py-4">
+                    <div class="rank-badge rank-2 mx-auto mb-3" style="width: 70px; height: 70px; font-size: 2rem;">
+                        2
+                    </div>
+                    <h5 class="mb-1">{{ leaderboard.1.first_name }} {{ leaderboard.1.last_name }}</h5>
+                    <p class="text-muted mb-2">@{{ leaderboard.1.username }}</p>
+                    <h3 class="mb-0">{{ leaderboard.1.userprofile.points }} pts</h3>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if leaderboard|length >= 1 %}
+        <!-- 1st Place -->
+        <div class="col-md-3 order-md-2 mb-3">
+            <div class="card text-center shadow" style="background: linear-gradient(135deg, #ffed4e, #ffd700);">
+                <div class="card-body py-5">
+                    <i class="bi bi-crown-fill" style="font-size: 2.5rem; color: #ff6b6b;"></i>
+                    <div class="rank-badge rank-1 mx-auto mb-3" style="width: 90px; height: 90px; font-size: 2.5rem;">
+                        1
+                    </div>
+                    <h4 class="mb-1">{{ leaderboard.0.first_name }} {{ leaderboard.0.last_name }}</h4>
+                    <p class="text-dark mb-2">@{{ leaderboard.0.username }}</p>
+                    <h2 class="mb-0">{{ leaderboard.0.userprofile.points }} pts</h2>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if leaderboard|length >= 3 %}
+        <!-- 3rd Place -->
+        <div class="col-md-3 order-md-3 mb-3">
+            <div class="card text-center shadow" style="background: linear-gradient(135deg, #e8a87c, #cd7f32);">
+                <div class="card-body py-4">
+                    <div class="rank-badge rank-3 mx-auto mb-3" style="width: 70px; height: 70px; font-size: 2rem;">
+                        3
+                    </div>
+                    <h5 class="mb-1">{{ leaderboard.2.first_name }} {{ leaderboard.2.last_name }}</h5>
+                    <p class="text-white mb-2">@{{ leaderboard.2.username }}</p>
+                    <h3 class="mb-0">{{ leaderboard.2.userprofile.points }} pts</h3>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Full Leaderboard -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="bi bi-list-ol"></i> Full Rankings</h4>
+                </div>
+                <div class="card-body p-0">
+                    {% for user in leaderboard %}
+                        <div class="leaderboard-item {% if user == request.user %}border border-3 border-success{% endif %}">
+                            <div class="rank-badge 
+                                {% if forloop.counter == 1 %}rank-1
+                                {% elif forloop.counter == 2 %}rank-2
+                                {% elif forloop.counter == 3 %}rank-3
+                                {% else %}rank-other{% endif %}">
+                                {{ forloop.counter }}
+                            </div>
+                            
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center me-3"
+                                         style="width: 50px; height: 50px;">
+                                        {{ user.username|slice:":1"|upper }}
+                                    </div>
+                                    
+                                    <div>
+                                        <h6 class="mb-0">
+                                            {{ user.first_name }} {{ user.last_name }}
+                                            {% if user == request.user %}
+                                                <span class="badge bg-success ms-2">You</span>
+                                            {% endif %}
+                                        </h6>
+                                        <small class="text-muted">@{{ user.username }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-end">
+                                <h4 class="mb-0">{{ user.userprofile.points }}</h4>
+                                <small class="text-muted">points</small>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="empty-state">
+                            <i class="bi bi-trophy"></i>
+                            <h5 class="mt-3">No rankings yet</h5>
+                            <p>Be the first to recycle and top the leaderboard!</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if request.user.is_authenticated %}
+            <!-- Your Stats -->
+            <div class="card mt-4 border-success border-2">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5><i class="bi bi-person-circle"></i> Your Stats</h5>
+                            <p class="mb-0">Current Rank: <strong>#{{ user_rank }}</strong> | Total Points: <strong>{{ request.user.userprofile.points }}</strong></p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <a href="{% url 'submit_recyclable' %}" class="btn btn-eco">
+                                <i class="bi bi-plus-circle"></i> Recycle More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

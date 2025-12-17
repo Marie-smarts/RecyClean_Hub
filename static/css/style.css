@@ -1,0 +1,212 @@
+:root {
+    --eco-primary: #2d7a3e;
+    --eco-secondary: #52b788;
+    --eco-light: #95d5b2;
+    --eco-dark: #1b4332;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+    min-height: 100vh;
+}
+
+.bg-eco {
+    background: linear-gradient(135deg, var(--eco-dark) 0%, var(--eco-primary) 100%);
+}
+
+.navbar-brand i {
+    font-size: 1.8rem;
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(45, 122, 62, 0.15);
+}
+
+.btn-eco {
+    background: linear-gradient(135deg, var(--eco-primary) 0%, var(--eco-secondary) 100%);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 25px;
+}
+
+.btn-eco:hover {
+    background: linear-gradient(135deg, var(--eco-dark) 0%, var(--eco-primary) 100%);
+    color: white;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--eco-dark) 0%, var(--eco-primary) 100%);
+    color: white;
+    padding: 100px 0;
+}
+
+.stats-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+}
+
+.stats-card i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.icon-box-green {
+    background: linear-gradient(135deg, var(--eco-primary), var(--eco-secondary));
+    color: white;
+}
+
+.icon-box-blue {
+    background: linear-gradient(135deg, #2196f3, #64b5f6);
+    color: white;
+}
+
+.icon-box-orange {
+    background: linear-gradient(135deg, #ff9800, #ffb74d);
+    color: white;
+}
+
+.material-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.material-paper {
+    background: #ff9800;
+    color: white;
+}
+
+.material-plastic {
+    background: #2196f3;
+    color: white;
+}
+
+.recyclable-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.recyclable-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.leaderboard-item {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.rank-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.rank-1 { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #000; }
+.rank-2 { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: #000; }
+.rank-3 { background: linear-gradient(135deg, #cd7f32, #e8a87c); color: #fff; }
+.rank-other { background: var(--eco-light); color: var(--eco-dark); }
+
+.dashboard-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.center-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.center-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.center-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.center-inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: none;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 5rem;
+    color: var(--eco-light);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--eco-primary) 0%, var(--eco-secondary) 100%);
+    color: white;
+    font-weight: bold;
+}
