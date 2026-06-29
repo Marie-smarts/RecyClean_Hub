@@ -1,0 +1,126 @@
+:root {
+    --rc-primary: #2d7a3e;
+    --rc-primary-light: #52b788;
+    --rc-accent: #95d5b2;
+    --rc-bg: #ffffff;
+    --rc-surface: #f4f7f5;
+    --rc-border: #d8e8dc;
+    --rc-text: #1b2e22;
+    --rc-muted: #6b7a6e;
+}
+
+body.recyclers-portal {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--rc-bg);
+    color: var(--rc-text);
+    min-height: 100vh;
+}
+
+.recyclers-portal .navbar-rc {
+    background: linear-gradient(135deg, #1b4332 0%, var(--rc-primary) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.recyclers-portal .navbar-brand,
+.recyclers-portal .nav-link {
+    color: #fff !important;
+}
+
+.recyclers-portal .nav-link:hover {
+    color: #95d5b2 !important;
+}
+
+.recyclers-portal .btn-rc {
+    background: linear-gradient(135deg, var(--rc-primary) 0%, var(--rc-primary-light) 100%);
+    border: none;
+    color: #fff;
+    border-radius: 28px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(45, 122, 62, 0.30);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.recyclers-portal .btn-rc:hover {
+    background: linear-gradient(135deg, #1b4332 0%, var(--rc-primary) 100%);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(45, 122, 62, 0.38);
+}
+
+.recyclers-portal .btn-outline-rc {
+    border: 2px solid var(--rc-primary);
+    color: var(--rc-primary);
+    border-radius: 28px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.recyclers-portal .btn-outline-rc:hover {
+    background: var(--rc-primary);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(45, 122, 62, 0.25);
+}
+
+.recyclers-portal .hero-rc {
+    background: linear-gradient(135deg, #1b4332 0%, var(--rc-primary) 100%);
+    color: #fff;
+    border-radius: 16px;
+}
+
+.recyclers-portal .card-rc {
+    background: var(--rc-surface);
+    border: 1px solid var(--rc-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(27, 67, 50, 0.10);
+    transition: all 0.25s ease;
+}
+
+.recyclers-portal .card-rc:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(45, 122, 62, 0.18);
+}
+
+.recyclers-portal .step-indicator .active {
+    background: linear-gradient(135deg, var(--rc-primary) 0%, var(--rc-primary-light) 100%);
+    color: #fff;
+}
+
+.recyclers-portal .step-indicator .step {
+    background: var(--rc-border);
+    color: var(--rc-muted);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.recyclers-portal .plan-card {
+    border: 2px solid var(--rc-border);
+    border-radius: 16px;
+    transition: all 0.25s ease;
+    background: #fff;
+}
+
+.recyclers-portal .plan-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(45, 122, 62, 0.12);
+}
+
+.recyclers-portal .plan-card:has(input:checked) {
+    border-color: var(--rc-primary);
+    background: rgba(149, 213, 178, 0.12);
+}
+
+#map-pin {
+    height: 280px;
+    border-radius: 16px;
+    border: 1px solid var(--rc-border);
+}

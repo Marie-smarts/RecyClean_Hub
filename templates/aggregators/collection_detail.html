@@ -1,0 +1,37 @@
+{% extends 'aggregator/base.html' %}
+
+{% block title %}Collection Detail - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">Collection at {{ collection.drop_off_center.name }}</h4>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <p><strong>Material:</strong> {{ collection.get_material_type_display }}</p>
+                    <p><strong>Weight:</strong> {{ collection.weight_kg }} kg</p>
+                    <p><strong>Gross amount:</strong> KES {{ collection.gross_amount }}</p>
+                    <p><strong>Collected:</strong> {{ collection.collected_at|date:"M d, Y H:i" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6>Payment split</h6>
+                            <p class="mb-1">Platform: <strong>KES {{ collection.platform_amount }}</strong></p>
+                            <p class="mb-1 text-success">Your earnings: <strong>KES {{ collection.aggregator_amount }}</strong></p>
+                            <p class="mb-0">Host share: <strong>KES {{ collection.host_amount }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if collection.notes %}
+                <p class="mt-3"><strong>Notes:</strong> {{ collection.notes }}</p>
+            {% endif %}
+            <a href="{% url 'aggregator_collections' %}" class="btn btn-outline-eco mt-3">All collections</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

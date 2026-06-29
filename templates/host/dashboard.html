@@ -1,0 +1,88 @@
+{% extends 'host/base.html' %}
+
+{% block title %}Host Dashboard - RecyCleanHub{% endblock %}
+
+{% block content %}
+<nav class="dashboard-ribbon">
+    <div class="container">
+        <a href="{% url 'centers_map' %}" class="ribbon-btn"><i class="bi bi-map"></i> Map</a>
+        <a href="{% url 'my_center' %}" class="ribbon-btn"><i class="bi bi-building"></i> My center</a>
+        <a href="{% url 'request_pickup' %}" class="ribbon-btn"><i class="bi bi-truck"></i> Pickups</a>
+        <a href="{% url 'payment_history' %}" class="ribbon-btn"><i class="bi bi-wallet"></i> Earnings</a>
+    </div>
+</nav>
+<div class="container py-4">
+    <div class="hero-banner p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="h2 mb-2">Welcome back, {% if center %}{{ center.business_name|default:center.name }}{% else %}Host{% endif %}!</h1>
+                <p class="mb-0 opacity-90">Manage your drop-off center and pickup requests.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <span class="badge bg-light text-dark p-3">KES {{ user.userprofile.total_earnings|floatformat:2 }} earned</span>
+            </div>
+        </div>
+    </div>
+
+    {% if not center %}
+    <div class="alert alert-warning">
+        Set up your center to start receiving recyclables.
+        <a href="{% url 'my_center' %}" class="alert-link">Create center</a>
+    </div>
+    {% endif %}
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4 col-6">
+            <div class="stat-card text-center">
+                <h6 class="text-muted">Pending pickups</h6>
+                <h3>{{ pending_pickups }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4 col-6">
+            <div class="stat-card text-center">
+                <h6 class="text-muted">Scheduled</h6>
+                <h3>{{ scheduled_pickups }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4 col-12">
+            <div class="stat-card text-center">
+                <h6 class="text-muted">Completed</h6>
+                <h3>{{ completed_pickups }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between">
+                    <h5 class="mb-0">Recent pickup requests</h5>
+                    <a href="{% url 'request_pickup' %}" class="btn btn-sm btn-role">New request</a>
+                </div>
+                <div class="card-body">
+                    {% if recent_pickups %}
+                        <ul class="list-group list-group-flush">
+                            {% for p in recent_pickups %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ p.scheduled_date|date:"M d, Y" }} · {{ p.total_weight }} kg</span>
+                                <span class="badge bg-secondary">{{ p.get_status_display }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted mb-0">No pickup requests yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-grid gap-2">
+                    <a href="{% url 'my_center' %}" class="btn btn-role"><i class="bi bi-building"></i> My center</a>
+                    <a href="{% url 'request_pickup' %}" class="btn btn-outline-role"><i class="bi bi-truck"></i> Request pickup</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

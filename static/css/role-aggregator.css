@@ -1,0 +1,64 @@
+:root {
+    --role-primary: #1b4332;
+    --role-secondary: #40916c;
+    --role-bg: #d8f3dc;
+    --role-nav: #081c15;
+    --role-text: #1b4332;
+}
+
+body.role-aggregator {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(180deg, #d8f3dc 0%, #b7e4c7 100%);
+    color: var(--role-text);
+    min-height: 100vh;
+}
+
+.role-aggregator .navbar-role {
+    background: linear-gradient(135deg, var(--role-nav) 0%, var(--role-primary) 100%);
+}
+
+.role-aggregator .navbar-brand,
+.role-aggregator .nav-link {
+    color: #d8f3dc !important;
+}
+
+.role-aggregator .nav-link:hover {
+    color: #95d5b2 !important;
+}
+
+.role-aggregator .btn-role {
+    background: var(--role-secondary);
+    border: none;
+    color: #fff;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1.25rem;
+}
+
+.role-aggregator .btn-role:hover {
+    background: #2d6a4f;
+    color: #fff;
+}
+
+.role-aggregator .btn-outline-role {
+    border: 1px solid var(--role-secondary);
+    color: var(--role-secondary);
+    border-radius: 0.375rem;
+}
+
+.role-aggregator .btn-outline-role:hover {
+    background: var(--role-secondary);
+    color: #fff;
+}
+
+.role-aggregator .hero-banner {
+    background: linear-gradient(135deg, #081c15 0%, #1b4332 50%, #2d6a4f 100%);
+    color: #fff;
+    border-radius: 0.5rem;
+}
+
+.role-aggregator .stat-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    border: 1px solid #95d5b2;
+    padding: 1.25rem;
+}

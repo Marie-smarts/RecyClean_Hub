@@ -1,0 +1,51 @@
+{% extends 'recyclers/base.html' %}
+
+{% block title %}Register — Review - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="step-indicator d-flex gap-2 mb-4">
+        <span class="step">1</span><span class="step">2</span><span class="step active">3</span>
+        <span class="ms-2 align-self-center text-muted">Review &amp; submit</span>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card card-rc shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h2 class="h5" style="color: var(--rc-primary);">Review your application</h2>
+                    <dl class="row small mb-0">
+                        <dt class="col-sm-4">Company</dt><dd class="col-sm-8">{{ review.company_name }} ({{ review.registration_number }})</dd>
+                        <dt class="col-sm-4">KRA PIN</dt><dd class="col-sm-8">{{ review.kra_pin }}</dd>
+                        <dt class="col-sm-4">Email</dt><dd class="col-sm-8">{{ review.company_email }}</dd>
+                        <dt class="col-sm-4">Address</dt><dd class="col-sm-8">{{ review.physical_address }}</dd>
+                        <dt class="col-sm-4">Contact</dt><dd class="col-sm-8">{{ review.contact_name }}, {{ review.contact_title }}</dd>
+                        <dt class="col-sm-4">Plan</dt><dd class="col-sm-8">{{ review.subscription_plan|title }}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="card card-rc shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h5" style="color: var(--rc-primary);">Platform login account</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if form.errors %}<div class="alert alert-danger">{{ form.errors }}</div>{% endif %}
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Username *</label>{{ form.username }}</div>
+                            <div class="col-md-6"><label class="form-label">Email *</label>{{ form.email }}</div>
+                            <div class="col-md-6"><label class="form-label">First name *</label>{{ form.first_name }}</div>
+                            <div class="col-md-6"><label class="form-label">Last name *</label>{{ form.last_name }}</div>
+                            <div class="col-md-6"><label class="form-label">Password *</label>{{ form.password1 }}</div>
+                            <div class="col-md-6"><label class="form-label">Confirm password *</label>{{ form.password2 }}</div>
+                            <div class="col-12"><div class="form-check">{{ form.confirm_submission }} <label class="form-check-label">{{ form.confirm_submission.label }}</label></div></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'recycler_register_step2' %}" class="btn btn-outline-rc">Back</a>
+                            <button type="submit" class="btn btn-rc">Submit application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

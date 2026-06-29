@@ -1,0 +1,58 @@
+{% extends 'recyclers/base.html' %}
+
+{% block title %}Review {{ company.company_name }} - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <a href="{% url 'recycler_admin_list' %}" class="text-decoration-none">&larr; Back to list</a>
+    <h1 class="h3 mt-3 mb-4" style="color: var(--rc-primary);">{{ company.company_name }}</h1>
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card card-rc shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h6">Company &amp; compliance</h2>
+                    <dl class="row small">
+                        <dt class="col-sm-4">Registration</dt><dd class="col-sm-8">{{ company.registration_number }}</dd>
+                        <dt class="col-sm-4">KRA PIN</dt><dd class="col-sm-8">{{ company.kra_pin }}</dd>
+                        <dt class="col-sm-4">Email</dt><dd class="col-sm-8">{{ company.company_email }}</dd>
+                        <dt class="col-sm-4">Address</dt><dd class="col-sm-8">{{ company.physical_address }}</dd>
+                        <dt class="col-sm-4">Contact</dt><dd class="col-sm-8">{{ company.contact_name }} ({{ company.contact_title }}) — {{ company.contact_phone }}</dd>
+                        <dt class="col-sm-4">Capacity</dt><dd class="col-sm-8">{{ company.weekly_capacity_tonnes }} t/week</dd>
+                        <dt class="col-sm-4">Materials</dt><dd class="col-sm-8">{{ company.materials_accepted|join:", " }}</dd>
+                    </dl>
+                    <p class="mb-1"><a href="{{ company.kra_pin_certificate.url }}" target="_blank">KRA certificate</a>
+                    {% if company.nema_permit %} · <a href="{{ company.nema_permit.url }}" target="_blank">NEMA permit</a>{% endif %}
+                    · <a href="{{ company.facility_photo.url }}" target="_blank">Facility photo</a></p>
+                </div>
+            </div>
+            <div class="card card-rc shadow-sm">
+                <div class="card-body">
+                    <h2 class="h6">Price table (buy prices KES/kg)</h2>
+                    <ul class="mb-0">
+                        <li>Plastic: {{ company.price_per_kg_plastic }}</li>
+                        <li>Metal: {{ company.price_per_kg_metal }}</li>
+                        <li>Paper: {{ company.price_per_kg_paper }}</li>
+                        <li>Glass: {{ company.price_per_kg_glass }}</li>
+                        <li>Aluminium: {{ company.price_per_kg_aluminium }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            {% if company.status == 'pending' %}
+            <form method="post" action="{% url 'recycler_admin_approve' company.pk %}" class="mb-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success w-100">Approve &amp; assign code</button>
+            </form>
+            <form method="post" action="{% url 'recycler_admin_reject' company.pk %}">
+                {% csrf_token %}
+                {{ reject_form.rejection_reason }}
+                <button type="submit" class="btn btn-outline-danger w-100 mt-2">Reject</button>
+            </form>
+            {% else %}
+            <div class="alert alert-secondary">Status: {{ company.get_status_display }}{% if company.company_code %} · {{ company.company_code }}{% endif %}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

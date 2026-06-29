@@ -1,0 +1,18 @@
+Hello {{ company.contact_name }},
+
+Congratulations — {{ company.company_name }} has been approved on RecyCleanHub.
+
+Company code: {{ company.company_code }}
+Subscription: {{ company.get_subscription_plan_display }} (KES {{ plan_amount }}/month)
+Active until: {{ company.subscription_end }}
+
+Platform access:
+1. Log in at your RecyCleanHub account
+2. Open the recycling company dashboard at /recycler/dashboard/
+3. View supply pipeline, traceability, and analytics
+4. Download CSV reports anytime
+
+Invoice: KES {{ plan_amount }} for your first subscription period is due per your plan agreement.
+
+Welcome aboard,
+RecyCleanHub Team

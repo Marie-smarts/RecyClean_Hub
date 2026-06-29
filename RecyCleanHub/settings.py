@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
      'accounts',
     'recycling',
-    'payments'
+    'payments',
+    'aggregators',
+    'recyclers',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'recyclers.context_processors.recycling_company',
             ],
         },
     },
@@ -127,10 +130,35 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Auth
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 from decouple import config
+
+# Email (used by password reset and other mail)
+# Default: console backend prints messages to the runserver terminal (no SMTP required).
+EMAIL_BACKEND = config(
+    'EMAIL_BACKEND',
+    default='django.core.mail.backends.console.EmailBackend',
+)
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config(
+    'DEFAULT_FROM_EMAIL',
+    default='RecyCleanHub <noreply@example.com>',
+)
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+# Google Maps (centers map page and Geocoding if needed later)
+GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY', default='')
+
+# Aggregator payment split (must sum to 1.0)
+AGGREGATOR_PLATFORM_SHARE = config('AGGREGATOR_PLATFORM_SHARE', default='0.10')
+AGGREGATOR_COLLECTOR_SHARE = config('AGGREGATOR_COLLECTOR_SHARE', default='0.60')
+AGGREGATOR_HOST_SHARE = config('AGGREGATOR_HOST_SHARE', default='0.30')
 
 # M-Pesa Settings
 MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT', default='sandbox')

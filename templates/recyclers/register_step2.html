@@ -1,0 +1,68 @@
+{% extends 'recyclers/base.html' %}
+
+{% block title %}Register — Step 2 - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="step-indicator d-flex gap-2 mb-4">
+        <span class="step">1</span>
+        <span class="step active">2</span>
+        <span class="step">3</span>
+        <span class="ms-2 align-self-center text-muted">Contact &amp; operations</span>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <form method="post">
+                {% csrf_token %}
+                <div class="card card-rc shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h2 class="h5" style="color: var(--rc-primary);">Contact person</h2>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Name *</label>{{ form.contact_name }}</div>
+                            <div class="col-md-6"><label class="form-label">Title *</label>{{ form.contact_title }}</div>
+                            <div class="col-md-6"><label class="form-label">Phone *</label>{{ form.contact_phone }}</div>
+                            <div class="col-md-6"><label class="form-label">National ID *</label>{{ form.contact_national_id }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-rc shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h2 class="h5" style="color: var(--rc-primary);">Operations &amp; buy prices (KES/kg)</h2>
+                        <p class="small text-muted">These prices populate the platform <strong>PriceTable</strong> for collection logging.</p>
+                        <label class="form-label">Materials accepted *</label>
+                        <div class="d-flex flex-wrap gap-3 mb-3">
+                            {% for checkbox in form.materials_accepted %}
+                            <div class="form-check">{{ checkbox.tag }} <label class="form-check-label">{{ checkbox.choice_label }}</label></div>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3"><label class="form-label">Weekly capacity (tonnes) *</label>{{ form.weekly_capacity_tonnes }}</div>
+                        <div class="row g-3">
+                            <div class="col-md-4"><label class="form-label">Plastic</label>{{ form.price_per_kg_plastic }}</div>
+                            <div class="col-md-4"><label class="form-label">Metal</label>{{ form.price_per_kg_metal }}</div>
+                            <div class="col-md-4"><label class="form-label">Paper</label>{{ form.price_per_kg_paper }}</div>
+                            <div class="col-md-4"><label class="form-label">Glass</label>{{ form.price_per_kg_glass }}</div>
+                            <div class="col-md-4"><label class="form-label">Aluminium</label>{{ form.price_per_kg_aluminium }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-rc shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h2 class="h5" style="color: var(--rc-primary);">Subscription plan *</h2>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4"><div class="plan-card p-3"><strong>Basic</strong> — KES 5,000/mo<ul class="small mb-0">{% for f in subscription_features.basic %}<li>{{ f }}</li>{% endfor %}</ul></div></div>
+                            <div class="col-md-4"><div class="plan-card p-3"><strong>Standard</strong> — KES 10,000/mo<ul class="small mb-0">{% for f in subscription_features.standard %}<li>{{ f }}</li>{% endfor %}</ul></div></div>
+                            <div class="col-md-4"><div class="plan-card p-3"><strong>Premium</strong> — KES 15,000/mo<ul class="small mb-0">{% for f in subscription_features.premium %}<li>{{ f }}</li>{% endfor %}</ul></div></div>
+                        </div>
+                        <div class="d-flex flex-column gap-2">{{ form.subscription_plan }}</div>
+                        {{ form.subscription_plan.errors }}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'recycler_register_step1' %}" class="btn btn-outline-rc">Back</a>
+                    <button type="submit" class="btn btn-rc">Continue to review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'recyclers/base.html' %}
+
+{% block title %}Register — Step 1 - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="step-indicator d-flex gap-2 mb-4">
+        <span class="step active">1</span>
+        <span class="step">2</span>
+        <span class="step">3</span>
+        <span class="ms-2 align-self-center text-muted">Company information</span>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card card-rc shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h4 mb-3" style="color: var(--rc-primary);">Company &amp; facility</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.errors %}<div class="alert alert-danger">{{ form.errors }}</div>{% endif %}
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Company name *</label>{{ form.company_name }}</div>
+                            <div class="col-md-6"><label class="form-label">Registration number *</label>{{ form.registration_number }}</div>
+                            <div class="col-md-6"><label class="form-label">KRA PIN *</label>{{ form.kra_pin }}</div>
+                            <div class="col-md-6"><label class="form-label">Company email *</label>{{ form.company_email }}</div>
+                            <div class="col-md-6"><label class="form-label">KRA PIN certificate *</label>{{ form.kra_pin_certificate }}</div>
+                            <div class="col-md-6"><label class="form-label">NEMA permit (optional)</label>{{ form.nema_permit }}</div>
+                            <div class="col-md-6"><label class="form-label">Website</label>{{ form.website }}</div>
+                            <div class="col-md-6"><label class="form-label">Facility photo *</label>{{ form.facility_photo }}</div>
+                            <div class="col-12"><label class="form-label">Physical address *</label>{{ form.physical_address }}</div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label">Pin facility location on map *</label>
+                            <div id="map-pin"></div>
+                            <p class="small text-muted mt-2">Click the map to set coordinates.</p>
+                            {{ form.latitude }}{{ form.longitude }}
+                        </div>
+                        <button type="submit" class="btn btn-rc mt-4">Continue to step 2</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const DEFAULT = { lat: -1.2921, lng: 36.8219 };
+    let map, marker;
+    const latInput = document.getElementById('id_latitude');
+    const lngInput = document.getElementById('id_longitude');
+    function setMarker(pos) {
+        if (!marker) marker = new google.maps.Marker({ position: pos, map, draggable: true });
+        else marker.setPosition(pos);
+        latInput.value = pos.lat.toFixed(6);
+        lngInput.value = pos.lng.toFixed(6);
+        marker.addListener('dragend', () => {
+            const p = marker.getPosition();
+            latInput.value = p.lat().toFixed(6);
+            lngInput.value = p.lng().toFixed(6);
+        });
+    }
+    function initMap() {
+        const start = latInput.value ? { lat: parseFloat(latInput.value), lng: parseFloat(lngInput.value) } : DEFAULT;
+        map = new google.maps.Map(document.getElementById('map-pin'), { center: start, zoom: 12 });
+        if (latInput.value) setMarker(start);
+        map.addListener('click', (e) => setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
+    }
+    window.initMap = initMap;
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY|default:'' }}&callback=initMap" async defer></script>
+{% endblock %}

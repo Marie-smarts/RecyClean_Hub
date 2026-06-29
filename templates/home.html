@@ -1,176 +1,996 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}EcoRecycle - Turn Waste into Rewards{% endblock %}
+{% block title %}RecyClean Hub — Turning Grey Into Green{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
 <section class="hero-section">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 fade-in-up">
-                <h1 class="display-4 mb-4">Turn Your Recyclables Into Cash & Points!</h1>
-                <p class="lead mb-4">Join Kenya's largest recycling community. Recycle paper and plastic, earn rewards, and help save our planet.</p>
-                <div class="d-flex gap-3">
-                    <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5">
+            <div class="col-lg-6">
+                <p class="hero-eyebrow">Kenya's Recycling Platform</p>
+                <h1 class="hero-headline">Turning Grey<br>Into Green</h1>
+                <p class="hero-sub">
+                    Join the movement connecting households, collectors, and recyclers
+                    to give Kenya's waste a purpose — and the planet a chance.
+                </p>
+                <div class="hero-actions">
+                    <a href="{% url 'register' %}" class="btn-eco">
                         <i class="bi bi-person-plus"></i> Get Started
+                    </a>
+                    <a href="{% url 'login' %}?next={% url 'centers_map' %}" class="btn-hero-ghost">
+                        <i class="bi bi-map"></i> Find a Drop-off Point
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <i class="bi bi-recycle" style="font-size: 15rem; color: rgba(255,255,255,0.3);"></i>
+            <div class="col-lg-6 text-center d-none d-lg-block">
+                <i class="bi bi-recycle hero-icon"></i>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Stats Section -->
-<section class="py-5 bg-white">
+<!-- ═══════════════════════════════════════════════
+     MISSION STATEMENT
+═══════════════════════════════════════════════ -->
+<section class="mission-section">
     <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stats-card">
-                    <i class="bi bi-people-fill text-success"></i>
-                    <div class="stats-number" data-target="5420">0</div>
-                    <p class="text-muted mb-0">Active Users</p>
+        <div class="mission-inner">
+            <p>
+                RecyClean Hub exists because Kenya's recycling story shouldn't end at the landfill.
+                We're building a connected, transparent network where every piece of waste finds its
+                way back into something useful — and every person along that chain is seen,
+                verified, and valued.
+            </p>
+            <p>
+                This isn't just about managing waste. It's about restoring dignity to an entire
+                informal economy that has been quietly doing this work all along.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     STATS — honest pilot numbers
+═══════════════════════════════════════════════ -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-3">
+                <div class="stat-pill">
+                    <i class="bi bi-people-fill"></i>
+                    <div class="stat-pill-number">3</div>
+                    <div class="stat-pill-label">Pilot Hosts</div>
                 </div>
             </div>
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stats-card">
-                    <i class="bi bi-recycle text-primary"></i>
-                    <div class="stats-number" data-target="12890">0</div>
-                    <p class="text-muted mb-0">Items Recycled</p>
+            <div class="col-6 col-md-3">
+                <div class="stat-pill">
+                    <i class="bi bi-patch-check-fill"></i>
+                    <div class="stat-pill-number">5</div>
+                    <div class="stat-pill-label">Certified Aggregators</div>
                 </div>
             </div>
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stats-card">
-                    <i class="bi bi-geo-alt-fill text-danger"></i>
-                    <div class="stats-number" data-target="87">0</div>
-                    <p class="text-muted mb-0">Drop-off Centers</p>
+            <div class="col-6 col-md-3">
+                <div class="stat-pill">
+                    <i class="bi bi-recycle"></i>
+                    <div class="stat-pill-number">2</div>
+                    <div class="stat-pill-label">Recycling Partners</div>
                 </div>
             </div>
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stats-card">
-                    <i class="bi bi-currency-dollar text-warning"></i>
-                    <div class="stats-number" data-target="2456780">0</div>
-                    <p class="text-muted mb-0">KES Paid Out</p>
+            <div class="col-6 col-md-3">
+                <div class="stat-pill">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <div class="stat-pill-number">Nairobi</div>
+                    <div class="stat-pill-label">Pilot Area</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- How It Works Section -->
-<section class="py-5">
+<!-- ═══════════════════════════════════════════════
+     HOW IT WORKS — mission tone, not money tone
+═══════════════════════════════════════════════ -->
+<section class="how-section">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">How It Works</h2>
-            <p class="lead text-muted">Simple steps to start earning from recycling</p>
+        <div class="section-header">
+            <h2>From Grey to Green</h2>
+            <p>Here's the journey your waste takes through RecyClean Hub</p>
         </div>
-        
+
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="how-step-icon">
+                    <i class="bi bi-sort-down"></i>
+                </div>
+                <div class="how-step-body">
+                    <h4>Sort</h4>
+                    <p>Separate your plastic, paper, metal, and glass at home. Sorted right, it has a future.</p>
+                </div>
+            </div>
+            <div class="how-step-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+            <div class="how-step">
+                <div class="how-step-icon">
+                    <i class="bi bi-shop"></i>
+                </div>
+                <div class="how-step-body">
+                    <h4>Drop</h4>
+                    <p>Find your nearest verified drop-off host on the map and hand your waste to someone who knows where it's going next.</p>
+                </div>
+            </div>
+            <div class="how-step-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+            <div class="how-step">
+                <div class="how-step-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+                <div class="how-step-body">
+                    <h4>Collect</h4>
+                    <p>A Certified Aggregator picks it up and carries it forward — closing the gap between your doorstep and the recycler.</p>
+                </div>
+            </div>
+            <div class="how-step-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+            <div class="how-step">
+                <div class="how-step-icon">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <div class="how-step-body">
+                    <h4>Transform</h4>
+                    <p>Your waste reaches a verified recycling company and becomes something new. The loop is closed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     WHAT WE ACCEPT — horizontal strip
+═══════════════════════════════════════════════ -->
+<section class="materials-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>What We Accept</h2>
+            <p>Materials that move through the RecyClean Hub network</p>
+        </div>
+
+        <div class="materials-strip">
+            <div class="material-chip">
+                <div class="material-chip-icon" style="background: rgba(33,150,243,0.1); color: #2196f3;">
+                    <i class="bi bi-cup-straw"></i>
+                </div>
+                <div class="material-chip-body">
+                    <strong>Plastic</strong>
+                    <span>Rinse and flatten bottles before dropping off</span>
+                </div>
+            </div>
+            <div class="material-chip">
+                <div class="material-chip-icon" style="background: rgba(255,152,0,0.1); color: #ff9800;">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+                <div class="material-chip-body">
+                    <strong>Paper & Cardboard</strong>
+                    <span>Keep dry and flatten cardboard boxes</span>
+                </div>
+            </div>
+            <div class="material-chip">
+                <div class="material-chip-icon" style="background: rgba(96,125,139,0.1); color: #607d8b;">
+                    <i class="bi bi-nut-fill"></i>
+                </div>
+                <div class="material-chip-body">
+                    <strong>Metal</strong>
+                    <span>Remove lids and rinse cans clean</span>
+                </div>
+            </div>
+            <div class="material-chip">
+                <div class="material-chip-icon" style="background: rgba(0,188,212,0.1); color: #00bcd4;">
+                    <i class="bi bi-droplet-fill"></i>
+                </div>
+                <div class="material-chip-body">
+                    <strong>Glass</strong>
+                    <span>Remove caps and rinse bottles</span>
+                </div>
+            </div>
+            <div class="material-chip">
+                <div class="material-chip-icon" style="background: rgba(45,122,62,0.1); color: #2d7a3e;">
+                    <i class="bi bi-lightning-fill"></i>
+                </div>
+                <div class="material-chip-body">
+                    <strong>Aluminium</strong>
+                    <span>Crush cans to save space</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     JOIN AS — role cards
+═══════════════════════════════════════════════ -->
+<section class="roles-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Who Are You Joining As?</h2>
+            <p>RecyClean Hub serves every part of the recycling chain</p>
+        </div>
+
         <div class="row g-4">
-            <div class="col-md-3">
-                <div class="card text-center p-4">
-                    <div class="icon-box icon-box-green mx-auto">
-                        <i class="bi bi-person-plus-fill"></i>
+            <div class="col-md-4">
+                <div class="role-card">
+                    <div class="role-card-icon">
+                        <i class="bi bi-house-heart-fill"></i>
                     </div>
-                    <h4>1. Register</h4>
-                    <p class="text-muted">Create your free account as a recycler or shop owner</p>
+                    <h4>User</h4>
+                    <p>Sort and drop off your household waste at a verified collection point near you. Track your history and see your impact.</p>
+                    <a href="{% url 'register' %}" class="role-card-link">
+                        Register as User <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-center p-4">
-                    <div class="icon-box icon-box-blue mx-auto">
-                        <i class="bi bi-camera-fill"></i>
+            <div class="col-md-4">
+                <div class="role-card">
+                    <div class="role-card-icon">
+                        <i class="bi bi-shop-window"></i>
                     </div>
-                    <h4>2. Submit Items</h4>
-                    <p class="text-muted">Take a photo and submit your recyclables with weight</p>
+                    <h4>Drop-off Host</h4>
+                    <p>Turn your shop, kiosk, or storefront into a verified collection point for your community. Earn revenue share on every deposit.</p>
+                    <a href="{% url 'register' %}" class="role-card-link">
+                        Register as Host <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-center p-4">
-                    <div class="icon-box icon-box-orange mx-auto">
-                        <i class="bi bi-shop"></i>
+            <div class="col-md-4">
+                <div class="role-card">
+                    <div class="role-card-icon">
+                        <i class="bi bi-building-fill"></i>
                     </div>
-                    <h4>3. Drop Off</h4>
-                    <p class="text-muted">Take your items to the nearest drop-off center</p>
+                    <h4>Recycling Company</h4>
+                    <p>Partner with a network of Certified Aggregators for consistent, traceable material supply. Access analytics and manage your pipeline.</p>
+                    <a href="{% url 'register' %}" class="role-card-link">
+                        Register as Recycler <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-center p-4">
-                    <div class="icon-box icon-box-green mx-auto">
-                        <i class="bi bi-cash-coin"></i>
-                    </div>
-                    <h4>4. Get Paid</h4>
-                    <p class="text-muted">Receive money via M-Pesa and earn points!</p>
-                </div>
+        </div>
+
+        <div class="aggregator-banner">
+            <div class="aggregator-banner-text">
+                <h5>Are you a waste collector or broker?</h5>
+                <p>Become the bridge to a better environment. Apply to become a Certified Aggregator.</p>
             </div>
+            <a href="{% url 'aggregator_register' %}" class="btn-eco-outline">
+                Become an Aggregator <i class="bi bi-arrow-right"></i>
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Recyclable Materials Section -->
-<section class="py-5 bg-white">
+<!-- ═══════════════════════════════════════════════
+     NEW TO RECYCLING — accordion education
+═══════════════════════════════════════════════ -->
+<section class="education-section" id="faq">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">What We Accept</h2>
-            <p class="lead text-muted">Materials you can recycle for rewards</p>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="icon-box icon-box-orange me-3">
-                                <i class="bi bi-file-earmark-text"></i>
-                            </div>
-                            <div>
-                                <h3 class="mb-0">Paper & Cardboard</h3>
-                                <p class="text-muted mb-0">10 points/kg • KES 5/kg</p>
+        <div class="row align-items-start g-5">
+            <div class="col-lg-5">
+                <div class="education-left">
+                    <p class="education-eyebrow">New to recycling?</p>
+                    <h2>Everything you need to know to get started</h2>
+                    <p class="text-muted">
+                        Recycling well is a skill — and it matters. Contaminated or unsorted waste 
+                        can't be processed, which means it ends up in landfill anyway. These quick 
+                        answers help you do it right from the start.
+                    </p>
+                    <a href="{% url 'register' %}" class="btn-eco mt-2">
+                        Start Recycling <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="accordion eco-accordion" id="recyclingFAQ">
+
+                    <div class="accordion-item eco-accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button eco-accordion-btn" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq1">
+                                <i class="bi bi-question-circle-fill me-2"></i>
+                                Why does sorting matter?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#recyclingFAQ">
+                            <div class="accordion-body eco-accordion-body">
+                                Different materials require completely different recycling processes. When plastic, paper, and metal are mixed together, the entire batch is often rejected by recycling facilities and sent to landfill instead. Sorting at source — at home, before you drop off — is what makes recycling actually work.
                             </div>
                         </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success"></i> Newspapers & Magazines</li>
-                            <li><i class="bi bi-check-circle-fill text-success"></i> Office Paper</li>
-                            <li><i class="bi bi-check-circle-fill text-success"></i> Cardboard Boxes</li>
-                        </ul>
                     </div>
-                </div>
-            </div>
-            
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="icon-box icon-box-blue me-3">
-                                <i class="bi bi-cup-straw"></i>
-                            </div>
-                            <div>
-                                <h3 class="mb-0">Plastic</h3>
-                                <p class="text-muted mb-0">15 points/kg • KES 8/kg</p>
+
+                    <div class="accordion-item eco-accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button eco-accordion-btn collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq2">
+                                <i class="bi bi-question-circle-fill me-2"></i>
+                                What can I recycle through RecyClean Hub?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#recyclingFAQ">
+                            <div class="accordion-body eco-accordion-body">
+                                Currently RecyClean Hub accepts plastic (PET bottles, containers), paper and cardboard (newspapers, office paper, flattened boxes), metal (rinsed cans, tins), glass bottles, and aluminium cans. Each drop-off host lists exactly which materials they accept so you always know before you go.
                             </div>
                         </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success"></i> Plastic Bottles (PET)</li>
-                            <li><i class="bi bi-check-circle-fill text-success"></i> Plastic Bags</li>
-                            <li><i class="bi bi-check-circle-fill text-success"></i> Plastic Containers</li>
-                        </ul>
                     </div>
+
+                    <div class="accordion-item eco-accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button eco-accordion-btn collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <i class="bi bi-question-circle-fill me-2"></i>
+                                How do I prepare my waste before dropping it off?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#recyclingFAQ">
+                            <div class="accordion-body eco-accordion-body">
+                                Three simple rules: <strong>rinse</strong> food and liquid residue from containers, <strong>flatten</strong> plastic bottles and cardboard boxes to save space, and <strong>separate</strong> materials into different bags before you leave home. A clean, sorted drop-off takes less than five minutes to prepare.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item eco-accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button eco-accordion-btn collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq4">
+                                <i class="bi bi-question-circle-fill me-2"></i>
+                                What happens to my waste after I drop it off?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#recyclingFAQ">
+                            <div class="accordion-body eco-accordion-body">
+                                Your materials are weighed and logged at the drop-off host. When enough has accumulated (20kg triggers a pickup), a Certified Aggregator collects the batch and transports it to a verified recycling company. There, plastic becomes new packaging, paper becomes cardboard, metal is melted and reformed. Your waste genuinely becomes something new.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item eco-accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button eco-accordion-btn collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq5">
+                                <i class="bi bi-question-circle-fill me-2"></i>
+                                How does the payment system work?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#recyclingFAQ">
+                            <div class="accordion-body eco-accordion-body">
+                                When your materials are sold to a recycling company, the platform automatically calculates your share based on weight and material type. 70% of the sale value goes to you, 10% to the drop-off host, and 15% to the Certified Aggregator. Payment records are generated digitally for every transaction — transparent and verifiable.
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
-<section class="py-5 bg-eco text-white">
-    <div class="container text-center">
-        <h2 class="display-4 fw-bold mb-4">Ready to Start Recycling?</h2>
-        <p class="lead mb-4">Join thousands of Kenyans making money while saving the planet!</p>
-        <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5">
-            <i class="bi bi-person-plus"></i> Sign Up Now - It's Free!
-        </a>
+<!-- ═══════════════════════════════════════════════
+     IMPACT
+═══════════════════════════════════════════════ -->
+<section class="impact-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>This Is Bigger Than One Bottle</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="bi bi-tree-fill"></i>
+                    </div>
+                    <h5>Environmental</h5>
+                    <p>Every verified collection is one less item in a landfill — one more step toward a circular Kenya.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h5>Social</h5>
+                    <p>Certified Aggregators and Registered Hosts gain recognition, structure, and a verified place in a system that sees their work.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <h5>Economic</h5>
+                    <p>Transparent pricing eliminates exploitation. Every actor sees and verifies their payment for every transaction.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
+<!-- ═══════════════════════════════════════════════
+     FINAL CTA
+═══════════════════════════════════════════════ -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-inner">
+            <h2>Ready to be part of the solution?</h2>
+            <p>Join RecyClean Hub and become part of where Kenya's recyclables actually go.</p>
+            <div class="cta-actions">
+                <a href="{% url 'register' %}" class="btn-eco">
+                    <i class="bi bi-person-plus"></i> Join the Movement
+                </a>
+                <a href="{% url 'aggregator_register' %}" class="btn-hero-ghost">
+                    Become an Aggregator
+                </a>
+            </div>
+            <p class="cta-footnote">
+                Because the planet doesn't need another bin. It needs a system that works.
+            </p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ═══════════════════════════════════════════════
+   HOMEPAGE-SPECIFIC STYLES
+   These extend style.css for this page only
+═══════════════════════════════════════════════ */
+
+/* HERO */
+.hero-eyebrow {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--eco-light);
+    margin-bottom: 14px;
+}
+
+.hero-headline {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+
+.hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 480px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn-hero-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    border-radius: var(--radius-pill);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-hero-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.hero-icon {
+    font-size: 14rem;
+    color: rgba(255, 255, 255, 0.12);
+}
+
+/* MISSION */
+.mission-section {
+    padding: 60px 0;
+    background: #ffffff;
+}
+
+.mission-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mission-inner p {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: #3a4a3c;
+    margin-bottom: 18px;
+}
+
+.mission-inner p:last-child {
+    margin-bottom: 0;
+    color: var(--eco-muted);
+}
+
+/* STATS */
+.stats-section {
+    padding: 50px 0;
+    background: var(--eco-bg);
+}
+
+.stat-pill {
+    background: #ffffff;
+    border-radius: var(--radius-md);
+    padding: 24px 16px;
+    text-align: center;
+    box-shadow: 0 3px 12px var(--eco-shadow);
+    border-top: 3px solid var(--eco-secondary);
+    transition: var(--transition);
+}
+
+.stat-pill:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--eco-shadow-hover);
+}
+
+.stat-pill i {
+    font-size: 1.8rem;
+    color: var(--eco-primary);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-pill-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--eco-dark);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.stat-pill-label {
+    font-size: 0.8rem;
+    color: var(--eco-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* HOW IT WORKS */
+.how-section {
+    padding: 80px 0;
+    background: #ffffff;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 52px;
+}
+
+.section-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--eco-dark);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+}
+
+.section-header p {
+    color: var(--eco-muted);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.how-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.how-step {
+    flex: 1;
+    min-width: 180px;
+    max-width: 220px;
+    text-align: center;
+    padding: 24px 16px;
+    background: var(--eco-bg);
+    border-radius: var(--radius-md);
+    border-top: 3px solid var(--eco-secondary);
+    transition: var(--transition);
+}
+
+.how-step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px var(--eco-shadow-hover);
+    background: #ffffff;
+}
+
+.how-step-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--eco-primary), var(--eco-secondary));
+    color: #ffffff;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px auto;
+    box-shadow: 0 4px 12px rgba(45, 122, 62, 0.25);
+}
+
+.how-step h4 {
+    font-weight: 700;
+    color: var(--eco-dark);
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+}
+
+.how-step p {
+    font-size: 0.88rem;
+    color: var(--eco-muted);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.how-step-arrow {
+    align-self: center;
+    color: var(--eco-light);
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: -20px;
+}
+
+/* MATERIALS */
+.materials-section {
+    padding: 70px 0;
+    background: var(--eco-bg);
+}
+
+.materials-strip {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+}
+
+.materials-strip::-webkit-scrollbar {
+    display: none;
+}
+
+.material-chip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ffffff;
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    min-width: 240px;
+    box-shadow: 0 3px 10px var(--eco-shadow);
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.material-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--eco-shadow-hover);
+}
+
+.material-chip-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.material-chip-body strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--eco-dark);
+    margin-bottom: 3px;
+}
+
+.material-chip-body span {
+    font-size: 0.78rem;
+    color: var(--eco-muted);
+}
+
+/* ROLES */
+.roles-section {
+    padding: 80px 0;
+    background: #ffffff;
+}
+
+.role-card {
+    background: var(--eco-bg);
+    border-radius: var(--radius-md);
+    padding: 32px 24px;
+    height: 100%;
+    border-top: 3px solid var(--eco-secondary);
+    transition: var(--transition);
+}
+
+.role-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px var(--eco-shadow-hover);
+    background: #ffffff;
+}
+
+.role-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--eco-primary), var(--eco-secondary));
+    color: #ffffff;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(45, 122, 62, 0.25);
+}
+
+.role-card h4 {
+    font-weight: 700;
+    color: var(--eco-dark);
+    margin-bottom: 10px;
+}
+
+.role-card p {
+    color: var(--eco-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 20px;
+}
+
+.role-card-link {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--eco-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s ease, color 0.2s ease;
+}
+
+.role-card-link:hover {
+    color: var(--eco-dark);
+    gap: 10px;
+}
+
+.aggregator-banner {
+    margin-top: 40px;
+    background: linear-gradient(135deg, var(--eco-dark) 0%, var(--eco-primary) 100%);
+    border-radius: var(--radius-md);
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.aggregator-banner-text h5 {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.aggregator-banner-text p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.btn-eco-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 24px;
+    border-radius: var(--radius-pill);
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.btn-eco-outline:hover {
+    background: #ffffff;
+    color: var(--eco-dark);
+}
+
+/* EDUCATION / FAQ */
+.education-section {
+    padding: 80px 0;
+    background: var(--eco-bg);
+}
+
+.education-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--eco-secondary);
+    margin-bottom: 12px;
+}
+
+.education-left h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    color: var(--eco-dark);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.eco-accordion-item {
+    border: none;
+    border-radius: var(--radius-md) !important;
+    margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--eco-shadow);
+    background: #ffffff;
+}
+
+.eco-accordion-btn {
+    background: #ffffff !important;
+    color: var(--eco-dark) !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 18px 20px;
+}
+
+.eco-accordion-btn:not(.collapsed) {
+    color: var(--eco-primary) !important;
+    background: #ffffff !important;
+}
+
+.eco-accordion-btn i {
+    color: var(--eco-secondary);
+}
+
+.eco-accordion-btn::after {
+    filter: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%232d7a3e'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.eco-accordion-body {
+    font-size: 0.92rem;
+    color: #3a4a3c;
+    line-height: 1.75;
+    padding: 4px 20px 20px 20px;
+}
+
+/* IMPACT */
+.impact-section {
+    padding: 80px 0;
+    background: #ffffff;
+}
+
+.impact-card {
+    background: var(--eco-bg);
+    border-radius: var(--radius-md);
+    padding: 32px 24px;
+    text-align: center;
+    border-top: 3px solid var(--eco-secondary);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.impact-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px var(--eco-shadow-hover);
+    background: #ffffff;
+}
+
+.impact-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--eco-light), #e3f6e8);
+    color: var(--eco-primary);
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+}
+
+.impact-card h5 {
+    font-weight: 700;
+    color: var(--eco-dark);
+    margin-bottom: 10px;
+}
+
+.impact-card p {
+    font-size: 0.9rem;
+    color: var(--eco-muted);
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* FINAL CTA */
+.cta-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--eco-dark) 0%, var(--eco-primary) 100%);
+}
+
+.cta-inner {
+    text-align: center;
+    max-width: 580px;
+    margin: 0 auto;
+}
+
+.cta-inner h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+}
+
+.cta-inner > p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.05rem;
+    margin-bottom: 30px;
+}
+
+.cta-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.cta-footnote {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    margin: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .how-step-arrow { display: none; }
+    .how-steps { gap: 16px; }
+    .how-step { min-width: 140px; }
+    .aggregator-banner { flex-direction: column; text-align: center; }
+    .hero-actions { flex-direction: column; }
+    .btn-hero-ghost,
+    .btn-eco { width: 100%; justify-content: center; }
+    .cta-actions { flex-direction: column; align-items: center; }
+}
+</style>
 {% endblock %}

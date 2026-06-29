@@ -1,0 +1,133 @@
+{% extends 'recyclers/base.html' %}
+
+{% block title %}Company Dashboard - RecyCleanHub{% endblock %}
+
+
+{% block content %}
+<div class="container py-4">
+    <div class="hero-rc p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="h3 mb-1">{{ company.company_name }}</h1>
+                <p class="mb-0 opacity-90">Code: {{ company.company_code }} · Plan: {{ company.get_subscription_plan_display }}</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <span class="badge bg-light text-dark p-2">
+                    Subscription until {{ company.subscription_end|date:"M d, Y" }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-3 col-6"><div class="card-rc p-3 text-center"><h6 class="text-muted">Pipeline</h6><h3>{{ pipeline|length }}</h3></div></div>
+        <div class="col-md-3 col-6"><div class="card-rc p-3 text-center"><h6 class="text-muted">Traceability</h6><h3>{{ traceability|length }}</h3></div></div>
+        <div class="col-md-3 col-6"><div class="card-rc p-3 text-center"><h6 class="text-muted">Capacity/wk</h6><h3>{{ company.weekly_capacity_tonnes }}t</h3></div></div>
+        <div class="col-md-3 col-6"><div class="card-rc p-3 text-center"><h6 class="text-muted">Invoice</h6><h3>KES {{ plan_amount }}</h3></div></div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card card-rc shadow-sm">
+                <div class="card-header bg-white fw-semibold">Supply pipeline ({{ sourcing_radius }} km)</div>
+                <div class="card-body p-0">
+                    {% if pipeline %}
+                    <table class="table table-sm mb-0">
+                        <thead><tr><th>Center</th><th>Aggregator</th><th>km</th><th>Status</th></tr></thead>
+                        <tbody>
+                            {% for entry in pipeline %}
+                            <tr>
+                                <td>{{ entry.assignment.pickup_request.drop_off_center.name }}</td>
+                                <td>{{ entry.assignment.aggregator.company_name }}</td>
+                                <td>{{ entry.distance_km }}</td>
+                                <td>{{ entry.assignment.get_status_display }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}<p class="p-3 text-muted mb-0">No confirmed pickups in your sourcing area.</p>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-rc shadow-sm">
+                <div class="card-header bg-white fw-semibold">Traceability</div>
+                <div class="card-body p-0" style="max-height: 320px; overflow-y: auto;">
+                    {% if traceability %}
+                    <table class="table table-sm mb-0">
+                        <thead><tr><th>CA #</th><th>Host</th><th>Material</th><th>kg</th></tr></thead>
+                        <tbody>
+                            {% for t in traceability %}
+                            <tr>
+                                <td>{{ t.aggregator_reference }}</td>
+                                <td>{{ t.host_code }}</td>
+                                <td>{{ t.material_type }}</td>
+                                <td>{{ t.weight_kg }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}<p class="p-3 text-muted mb-0">No linked collections yet.</p>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-rc shadow-sm">
+                <div class="card-header bg-white fw-semibold">Weekly volume by material</div>
+                <div class="card-body"><canvas id="volumeChart" height="200"></canvas></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-rc shadow-sm">
+                <div class="card-header bg-white fw-semibold">Aggregator performance</div>
+                <div class="card-body"><canvas id="perfChart" height="200"></canvas></div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card card-rc shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between">
+                    <span class="fw-semibold">Verified aggregator directory</span>
+                    <a href="{% url 'recycler_directory' %}" class="btn btn-sm btn-outline-rc">View all</a>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        {% for item in directory %}
+                        <div class="col-md-4"><span class="badge bg-light text-dark border">{{ item.reference }}</span> {{ item.profile.company_name }}</div>
+                        {% empty %}<p class="text-muted mb-0">No verified aggregators listed.</p>{% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="{% url 'recycler_export_csv' %}" class="btn btn-rc"><i class="bi bi-download"></i> Download CSV report</a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    const weeklyData = {{ weekly_volume_json|safe }};
+    const weeks = Object.keys(weeklyData);
+    const materials = ['plastic', 'paper', 'metal', 'glass', 'mixed'];
+    const colors = ['#1A3A5C', '#4a7c9b', '#2a5580', '#6b9ab8', '#8eb4d4'];
+    new Chart(document.getElementById('volumeChart'), {
+        type: 'bar',
+        data: {
+            labels: weeks,
+            datasets: materials.map((m, i) => ({
+                label: m,
+                data: weeks.map(w => weeklyData[w][m] || 0),
+                backgroundColor: colors[i % colors.length],
+            })),
+        },
+        options: { responsive: true, scales: { x: { stacked: true }, y: { stacked: true } } },
+    });
+    const perfLabels = [{% for p in aggregator_perf %}'{{ p.aggregator_reference }}',{% endfor %}];
+    const perfData = [{% for p in aggregator_perf %}{{ p.total_kg|default:0 }},{% endfor %}];
+    new Chart(document.getElementById('perfChart'), {
+        type: 'bar',
+        data: { labels: perfLabels, datasets: [{ label: 'Total kg', data: perfData, backgroundColor: '#1A3A5C' }] },
+        options: { responsive: true },
+    });
+</script>
+{% endblock %}

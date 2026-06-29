@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Find drop-off hosts - RecyCleanHub{% endblock %}
+
+{% block extra_css %}
+<style>
+    #map {
+        width: 100%;
+        height: 70vh;
+        min-height: 420px;
+        border-radius: 12px;
+    }
+    .host-list-item {
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+    .host-list-item:hover,
+    .host-list-item.active {
+        background-color: rgba(82, 183, 136, 0.12);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 mb-1"><i class="bi bi-map"></i> Nearby drop-off hosts</h1>
+            <p class="text-muted mb-0" id="location-status">Detecting your location…</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+            <label class="small text-muted mb-0" for="radius-select">Radius</label>
+            <select id="radius-select" class="form-select form-select-sm" style="width: auto;">
+                <option value="10">10 km</option>
+                <option value="25" selected>25 km</option>
+                <option value="50">50 km</option>
+                <option value="100">100 km</option>
+            </select>
+            <a href="{% url 'drop_off_centers' %}" class="btn btn-outline-eco btn-sm">List view</a>
+        </div>
+    </div>
+
+    {% if not google_maps_api_key %}
+    <div class="alert alert-warning">
+        Set <code>GOOGLE_MAPS_API_KEY</code> in your <code>.env</code> file to load the map.
+        The nearby-hosts API still works without it.
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div id="map" class="shadow-sm border bg-light d-flex align-items-center justify-content-center text-muted">
+                {% if not google_maps_api_key %}Map unavailable without API key{% endif %}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">
+                    <strong>Hosts nearby</strong>
+                    <span class="badge bg-success ms-1" id="host-count">0</span>
+                </div>
+                <div class="card-body p-0">
+                    <div id="host-list" class="list-group list-group-flush" style="max-height: 70vh; overflow-y: auto;">
+                        <div class="list-group-item text-muted small">Waiting for location…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const NEARBY_HOSTS_URL = "{% url 'nearby_hosts_api' %}";
+    const DEFAULT_CENTER = { lat: {{ default_lat }}, lng: {{ default_lon }} };
+    const HAS_MAPS_KEY = {{ google_maps_api_key|yesno:"true,false" }};
+
+    let map = null;
+    let userMarker = null;
+    let hostMarkers = [];
+    let infoWindow = null;
+    let userPosition = null;
+
+    function setLocationStatus(text, isError = false) {
+        const el = document.getElementById('location-status');
+        el.textContent = text;
+        el.classList.toggle('text-danger', isError);
+    }
+
+    function whenMapsReady(callback) {
+        if (!HAS_MAPS_KEY) {
+            callback();
+            return;
+        }
+        (function poll() {
+            if (typeof google !== 'undefined' && google.maps) callback();
+            else setTimeout(poll, 50);
+        })();
+    }
+
+    function clearHostMarkers() {
+        hostMarkers.forEach(m => m.setMap(null));
+        hostMarkers = [];
+    }
+
+    function hostInfoContent(host) {
+        const phone = host.phone ? `<br><a href="tel:${host.phone}">${host.phone}</a>` : '';
+        return `<strong>${host.name}</strong><br>${host.distance_km} km away<br>${host.address}${phone}`;
+    }
+
+    function renderHostList(hosts) {
+        const list = document.getElementById('host-list');
+        document.getElementById('host-count').textContent = hosts.length;
+
+        if (!hosts.length) {
+            list.innerHTML = '<div class="list-group-item text-muted small">No hosts with coordinates in this area. Shop owners can add latitude/longitude under My Center.</div>';
+            return;
+        }
+
+        list.innerHTML = hosts.map(host => `
+            <button type="button" class="list-group-item list-group-item-action host-list-item text-start"
+                    data-host-id="${host.id}">
+                <div class="fw-semibold">${host.name}</div>
+                <div class="small text-muted">${host.distance_km} km away</div>
+                <div class="small">${host.address}</div>
+            </button>
+        `).join('');
+
+        list.querySelectorAll('.host-list-item').forEach((btn, index) => {
+            btn.addEventListener('click', () => focusHost(hosts[index], btn));
+        });
+    }
+
+    function focusHost(host, listButton) {
+        if (!map) return;
+        map.panTo({ lat: host.latitude, lng: host.longitude });
+        map.setZoom(14);
+        document.querySelectorAll('.host-list-item').forEach(el => el.classList.remove('active'));
+        if (listButton) listButton.classList.add('active');
+        const marker = hostMarkers.find(m => m.hostId === host.id);
+        if (marker && infoWindow) {
+            infoWindow.setContent(hostInfoContent(host));
+            infoWindow.open({ anchor: marker, map });
+        }
+    }
+
+    function addHostMarkers(hosts) {
+        if (!map) return;
+        clearHostMarkers();
+        hosts.forEach(host => {
+            const marker = new google.maps.Marker({
+                position: { lat: host.latitude, lng: host.longitude },
+                map,
+                title: host.name,
+            });
+            marker.hostId = host.id;
+            marker.addListener('click', () => {
+                infoWindow.setContent(hostInfoContent(host));
+                infoWindow.open({ anchor: marker, map });
+            });
+            hostMarkers.push(marker);
+        });
+        if (hosts.length && userPosition) {
+            const bounds = new google.maps.LatLngBounds();
+            bounds.extend(userPosition);
+            hosts.forEach(h => bounds.extend({ lat: h.latitude, lng: h.longitude }));
+            map.fitBounds(bounds, 48);
+        }
+    }
+
+    async function loadNearbyHosts(lat, lng) {
+        const radius = document.getElementById('radius-select').value;
+        const url = `${NEARBY_HOSTS_URL}?lat=${lat}&lon=${lng}&radius=${radius}&limit=50`;
+        const response = await fetch(url);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Could not load nearby hosts.');
+        renderHostList(data.hosts);
+        addHostMarkers(data.hosts);
+        setLocationStatus(`Showing ${data.count} host(s) within ${radius} km.`);
+    }
+
+    function initMap() {
+        const center = userPosition || DEFAULT_CENTER;
+        map = new google.maps.Map(document.getElementById('map'), {
+            center,
+            zoom: 12,
+            mapTypeControl: false,
+            streetViewControl: false,
+        });
+        infoWindow = new google.maps.InfoWindow();
+        userMarker = new google.maps.Marker({
+            position: center,
+            map,
+            title: 'Your location',
+        });
+    }
+
+    function onPositionReady(lat, lng) {
+        userPosition = { lat, lng };
+        whenMapsReady(() => {
+            if (HAS_MAPS_KEY) {
+                if (!map) initMap();
+                else {
+                    map.setCenter(userPosition);
+                    userMarker.setPosition(userPosition);
+                }
+            }
+            loadNearbyHosts(lat, lng).catch(err => setLocationStatus(err.message, true));
+        });
+    }
+
+    function detectUserLocation() {
+        if (!navigator.geolocation) {
+            setLocationStatus('Geolocation not supported. Using default map center.', true);
+            onPositionReady(DEFAULT_CENTER.lat, DEFAULT_CENTER.lng);
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                setLocationStatus('Using your current location.');
+                onPositionReady(pos.coords.latitude, pos.coords.longitude);
+            },
+            () => {
+                setLocationStatus('Location denied. Using default center (Nairobi).', true);
+                onPositionReady(DEFAULT_CENTER.lat, DEFAULT_CENTER.lng);
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+        );
+    }
+
+    document.getElementById('radius-select').addEventListener('change', () => {
+        if (userPosition) {
+            loadNearbyHosts(userPosition.lat, userPosition.lng).catch(err => {
+                setLocationStatus(err.message, true);
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', detectUserLocation);
+</script>
+{% if google_maps_api_key %}
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}" async defer></script>
+{% endif %}
+{% endblock %}

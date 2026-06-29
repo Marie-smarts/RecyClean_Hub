@@ -1,0 +1,78 @@
+:root {
+    --role-primary: var(--eco-primary);
+    --role-secondary: var(--eco-secondary);
+    --role-bg: var(--eco-bg);
+    --role-nav: var(--eco-dark);
+    --role-text: var(--eco-text);
+}
+
+body.role-recycler {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--eco-bg);
+    color: var(--eco-text);
+    min-height: 100vh;
+}
+
+.role-recycler .navbar-role {
+    background: linear-gradient(135deg, var(--eco-dark) 0%, var(--eco-primary) 100%);
+}
+
+.role-recycler .navbar-brand,
+.role-recycler .nav-link {
+    color: #fff !important;
+}
+
+.role-recycler .nav-link:hover {
+    opacity: 0.85;
+}
+
+.role-recycler .btn-role {
+    background: linear-gradient(135deg, var(--eco-primary), var(--eco-secondary));
+    border: none;
+    color: #fff;
+    border-radius: var(--radius-pill);
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(45, 122, 62, 0.25);
+    transition: var(--transition);
+}
+
+.role-recycler .btn-role:hover {
+    background: linear-gradient(135deg, var(--eco-dark), var(--eco-primary));
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.role-recycler .btn-outline-role {
+    border: 2px solid var(--eco-primary);
+    color: var(--eco-primary);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.role-recycler .btn-outline-role:hover {
+    background: var(--eco-primary);
+    color: #fff;
+}
+
+.role-recycler .hero-banner {
+    background: linear-gradient(135deg, var(--eco-dark) 0%, var(--eco-primary) 100%);
+    color: #fff;
+    border-radius: var(--radius-md);
+}
+
+.role-recycler .stat-card {
+    background: #fff;
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--eco-secondary);
+    padding: 1.25rem;
+    box-shadow: 0 3px 10px var(--eco-shadow);
+    transition: var(--transition);
+}
+
+.role-recycler .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--eco-shadow-hover);
+}

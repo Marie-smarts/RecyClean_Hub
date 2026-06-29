@@ -1,0 +1,73 @@
+:root {
+    --role-primary: #2d7a3e;
+    --role-secondary: #52b788;
+    --role-bg: #f4f7f5;
+    --role-nav: #ffffff;
+    --role-text: #1b2e22;
+}
+
+body.role-household {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--role-bg);
+    color: var(--role-text);
+    min-height: 100vh;
+}
+
+.role-household .navbar-role {
+    background: #fff;
+    border-bottom: 3px solid var(--role-secondary);
+    box-shadow: 0 2px 12px rgba(45, 122, 62, 0.15);
+}
+
+.role-household .navbar-brand {
+    color: var(--role-primary) !important;
+    font-weight: 700;
+}
+
+.role-household .nav-link {
+    color: var(--role-text) !important;
+    font-weight: 500;
+}
+
+.role-household .nav-link:hover {
+    color: var(--role-primary) !important;
+}
+
+.role-household .btn-role {
+    background: linear-gradient(135deg, var(--role-primary) 0%, var(--role-secondary) 100%);
+    border: none;
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(45, 122, 62, 0.30);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.role-household .btn-role:hover {
+    background: linear-gradient(135deg, #1b4332 0%, var(--role-primary) 100%);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(45, 122, 62, 0.38);
+}
+
+.role-household .hero-banner {
+    background: linear-gradient(135deg, #1b4332 0%, var(--role-primary) 100%);
+    color: #fff;
+    border-radius: 1rem;
+}
+
+.role-household .stat-card {
+    background: #fff;
+    border-radius: 1rem;
+    border: 2px solid #d8e8dc;
+    padding: 1.25rem;
+    box-shadow: 0 4px 16px rgba(27, 67, 50, 0.10);
+    transition: all 0.25s ease;
+}
+
+.role-household .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(45, 122, 62, 0.18);
+}

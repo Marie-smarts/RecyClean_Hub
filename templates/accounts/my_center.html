@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'host/base.html' %}
 {% load static %}
 
-{% block title %}My Center - EcoRecycle{% endblock %}
+{% block title %}My Center - RecyCleanHub{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -23,6 +23,18 @@
                         <div class="mb-3">
                             <label class="form-label">Address *</label>
                             {{ form.address }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Latitude</label>
+                                {{ form.latitude }}
+                                <div class="form-text">Required for map visibility. Use Google Maps to copy coordinates.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Longitude</label>
+                                {{ form.longitude }}
+                            </div>
                         </div>
                         
                         <div class="mb-3">

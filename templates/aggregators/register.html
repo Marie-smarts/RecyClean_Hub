@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Register as Aggregator - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-lg">
+                <div class="card-header text-center py-4">
+                    <h2><i class="bi bi-truck"></i> Register as Certified Aggregator</h2>
+                    <p class="mb-0 text-white-50 fst-italic small">Become the bridge to a better environment.</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger">{{ form.errors }}</div>
+                        {% endif %}
+                        <div class="row g-3">
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">First name *</label>{{ form.first_name }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Last name *</label>{{ form.last_name }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">National ID number *</label>{{ form.national_id_number }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">ID photo *</label>{{ form.national_id_photo }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Phone *</label>{{ form.phone }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Email *</label>{{ form.email }}</div>
+                            <div class="col-12 form-group-modern"><label class="form-label form-label-modern">Service area *</label>{{ form.service_area }}</div>
+                            <div class="col-md-6">{% include 'accounts/includes/password_field.html' with field=form.password1 label='Password *' %}</div>
+                            <div class="col-md-6">{% include 'accounts/includes/password_field.html' with field=form.password2 label='Confirm password *' %}</div>
+                        </div>
+                        <button type="submit" class="btn btn-eco w-100 btn-lg mt-4">
+                            <i class="bi bi-send"></i> Submit for verification
+                        </button>
+                        <p class="text-center mt-3 mb-0">
+                            Already have an account? <a href="{% url 'login' %}" class="fw-bold">Login</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'accounts/includes/password_toggle_script.html' %}
+{% endblock %}

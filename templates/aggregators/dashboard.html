@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Aggregator Dashboard - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card bg-eco text-white mb-4">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="mb-2">{{ profile.company_name }}</h2>
+                    <p class="mb-0"><i class="bi bi-truck"></i> Aggregator · Verified</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <span class="badge bg-white text-dark p-3 fs-6">
+                        KES {{ profile.total_earnings|floatformat:2 }} earned
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4 col-6">
+            <div class="dashboard-card text-center">
+                <h6 class="text-muted">Active pickups</h6>
+                <h3>{{ active_pickups }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4 col-6">
+            <div class="dashboard-card text-center">
+                <h6 class="text-muted">Completed pickups</h6>
+                <h3>{{ completed_pickups }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4 col-12">
+            <div class="dashboard-card text-center">
+                <h6 class="text-muted">Total collections</h6>
+                <h3>{{ profile.total_collections }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="mb-0"><i class="bi bi-truck"></i> My pickups</h5>
+                    <a href="{% url 'aggregator_pickups' %}" class="btn btn-sm btn-outline-eco">Manage</a>
+                </div>
+                <div class="card-body">
+                    {% if recent_assignments %}
+                        <ul class="list-group list-group-flush">
+                            {% for a in recent_assignments %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ a.pickup_request.drop_off_center.name }}</span>
+                                <span class="badge bg-secondary">{{ a.get_status_display }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted mb-0">No pickups yet. <a href="{% url 'aggregator_pickups' %}">Browse available</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="mb-0"><i class="bi bi-journal-check"></i> Recent collections</h5>
+                    <a href="{% url 'aggregator_collections' %}" class="btn btn-sm btn-outline-eco">View all</a>
+                </div>
+                <div class="card-body">
+                    {% if recent_collections %}
+                        <ul class="list-group list-group-flush">
+                            {% for c in recent_collections %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ c.drop_off_center.name }} · {{ c.weight_kg }} kg</span>
+                                <span class="text-success">KES {{ c.aggregator_amount }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted mb-0">Log a collection after completing a pickup.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

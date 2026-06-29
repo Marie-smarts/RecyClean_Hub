@@ -10,6 +10,10 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('recycling/', include('recycling.urls')),
     path('payments/', include('payments.urls')),
+    path('aggregators/', include('aggregators.urls')),
+    path('recyclers/', include('recyclers.urls')),
+    path('recycler/', include('recyclers.company_urls')),
+    path('admin-panel/recyclers/', include('recyclers.admin_urls')),
 ]
 
 if settings.DEBUG:

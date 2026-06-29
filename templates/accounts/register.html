@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Register - EcoRecycle{% endblock %}
+{% block title %}Register - RecyCleanHub{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -10,7 +10,7 @@
             <div class="card shadow-lg">
                 <div class="card-header text-center py-4">
                     <h2><i class="bi bi-person-plus"></i> Create Your Account</h2>
-                    <p class="mb-0 text-white-50">Join the EcoRecycle community today!</p>
+                        <p class="mb-0 text-white-50">Household, recycler, or host — pick your role below</p>
                 </div>
                 <div class="card-body p-4">
                     <form method="post" enctype="multipart/form-data">
@@ -70,13 +70,13 @@
                         
                         <div class="mb-3">
                             <label class="form-label">I am a *</label>
-                            {{ form.user_type }}
+                            {{ form.role }}
                         </div>
                         
                         <div class="mb-3">
                             <label class="form-label">Phone Number (M-Pesa) *</label>
                             {{ form.phone }}
-                            <small class="text-muted">Format: 254712345678</small>
+                            <small class="text-muted">Format: +254 712 345 678</small>
                         </div>
                         
                         <div class="mb-3">

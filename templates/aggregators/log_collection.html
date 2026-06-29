@@ -1,0 +1,45 @@
+{% extends 'aggregator/base.html' %}
+
+{% block title %}Log Collection - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-lg">
+                <div class="card-header text-center py-3">
+                    <h3 class="mb-0"><i class="bi bi-cash-stack"></i> Log collection</h3>
+                    <p class="mb-0 text-white-50 small">{{ assignment.pickup_request.drop_off_center.name }}</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info">
+                        <strong>Split preview (KES):</strong><br>
+                        Platform: {{ preview.platform }} · Your share: {{ preview.aggregator }} · Host: {{ preview.host }}
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Material type</label>
+                            {{ form.material_type }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Weight collected (kg)</label>
+                            {{ form.weight_kg }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gross amount (KES)</label>
+                            {{ form.gross_amount }}
+                            <div class="form-text">Total value collected before split.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Notes</label>
+                            {{ form.notes }}
+                        </div>
+                        <button type="submit" class="btn btn-eco w-100 btn-lg">Save collection</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Register as Recycler - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center py-4">
+                    <h2><i class="bi bi-building-fill"></i> Register as Recycling Company</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.errors %}<div class="alert alert-danger">{{ form.errors }}</div>{% endif %}
+                        <div class="row g-3">
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Company name *</label>{{ form.company_name }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Contact person *</label>{{ form.contact_name }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Phone *</label>{{ form.phone }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Email *</label>{{ form.email }}</div>
+                            <div class="col-12 form-group-modern"><label class="form-label form-label-modern">Physical address *</label>{{ form.physical_address }}</div>
+                            <div class="col-12 form-group-modern"><label class="form-label form-label-modern">Vehicle(s) info *</label>{{ form.vehicle_info }}</div>
+                            <div class="col-12 form-group-modern"><label class="form-label form-label-modern">Proof of business *</label>{{ form.proof_document }}</div>
+                            <div class="col-md-6">{% include 'accounts/includes/password_field.html' with field=form.password1 label='Password *' %}</div>
+                            <div class="col-md-6">{% include 'accounts/includes/password_field.html' with field=form.password2 label='Confirm password *' %}</div>
+                        </div>
+                        <button type="submit" class="btn btn-eco-modern w-100 mt-4">Submit application</button>
+                        <p class="text-center mt-3 mb-0"><a href="{% url 'register' %}">← Back to role selection</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'accounts/includes/password_toggle_script.html' %}
+{% endblock %}

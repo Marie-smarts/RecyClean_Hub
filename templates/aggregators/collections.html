@@ -1,0 +1,43 @@
+{% extends 'aggregator/base.html' %}
+
+{% block title %}Collections - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4"><i class="bi bi-journal-text"></i> Collection history</h1>
+    {% if collections %}
+        <div class="table-responsive card shadow-sm">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Center</th>
+                        <th>Material</th>
+                        <th>Weight</th>
+                        <th>Gross</th>
+                        <th>Your share</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in collections %}
+                    <tr>
+                        <td>{{ c.drop_off_center.name }}</td>
+                        <td>{{ c.get_material_type_display }}</td>
+                        <td>{{ c.weight_kg }} kg</td>
+                        <td>KES {{ c.gross_amount }}</td>
+                        <td class="text-success">KES {{ c.aggregator_amount }}</td>
+                        <td>{{ c.collected_at|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="{% url 'aggregator_collection_detail' c.pk %}" class="btn btn-sm btn-outline-eco">Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-muted">No collections logged yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

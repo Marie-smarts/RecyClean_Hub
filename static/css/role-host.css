@@ -1,0 +1,84 @@
+:root {
+    --role-primary: #2d7a3e;
+    --role-secondary: #52b788;
+    --role-bg: #f4f7f5;
+    --role-nav: #1b4332;
+    --role-text: #1b2e22;
+}
+
+body.role-host {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--role-bg);
+    color: var(--role-text);
+    min-height: 100vh;
+}
+
+.role-host .navbar-role {
+    background: var(--role-nav);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.role-host .navbar-brand,
+.role-host .nav-link {
+    color: #f4f7f5 !important;
+}
+
+.role-host .nav-link:hover {
+    color: var(--role-secondary) !important;
+}
+
+.role-host .btn-role {
+    background: linear-gradient(135deg, var(--role-primary) 0%, var(--role-secondary) 100%);
+    border: none;
+    color: #fff;
+    border-radius: 28px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(45, 122, 62, 0.30);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.role-host .btn-role:hover {
+    background: linear-gradient(135deg, #1b4332 0%, var(--role-primary) 100%);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(45, 122, 62, 0.38);
+}
+
+.role-host .btn-outline-role {
+    border: 2px solid var(--role-primary);
+    color: var(--role-primary);
+    border-radius: 28px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.role-host .btn-outline-role:hover {
+    background: var(--role-primary);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(45, 122, 62, 0.25);
+}
+
+.role-host .hero-banner {
+    background: linear-gradient(135deg, #1b4332 0%, var(--role-primary) 100%);
+    color: #fff;
+    border-radius: 16px;
+}
+
+.role-host .stat-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #d8e8dc;
+    padding: 1.25rem;
+    box-shadow: 0 4px 16px rgba(27, 67, 50, 0.10);
+    transition: all 0.25s ease;
+}
+
+.role-host .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(45, 122, 62, 0.18);
+}

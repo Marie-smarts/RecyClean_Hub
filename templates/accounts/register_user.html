@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Register as User - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-center py-4">
+                    <h2><i class="bi bi-house-heart-fill"></i> Register as User</h2>
+                    <p class="mb-0 text-white-50">Drop off recyclables at verified collection points</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if form.errors %}<div class="alert alert-danger">{{ form.errors }}</div>{% endif %}
+                        <div class="row g-3">
+                            <div class="col-md-6 form-group-modern">
+                                <label class="form-label form-label-modern">First name *</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6 form-group-modern">
+                                <label class="form-label form-label-modern">Last name *</label>
+                                {{ form.last_name }}
+                            </div>
+                            <div class="col-12 form-group-modern">
+                                <label class="form-label form-label-modern">Email *</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="col-12 form-group-modern">
+                                <label class="form-label form-label-modern">Phone *</label>
+                                {{ form.phone }}
+                            </div>
+                            <div class="col-md-6">
+                                {% include 'accounts/includes/password_field.html' with field=form.password1 label='Password *' %}
+                            </div>
+                            <div class="col-md-6">
+                                {% include 'accounts/includes/password_field.html' with field=form.password2 label='Confirm password *' %}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-eco-modern w-100 mt-4">Create account</button>
+                        <p class="text-center mt-3 mb-0"><a href="{% url 'register' %}">← Back to role selection</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'accounts/includes/password_toggle_script.html' %}
+{% endblock %}

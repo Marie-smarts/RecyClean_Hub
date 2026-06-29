@@ -1,0 +1,11 @@
+A new recycling company registration requires review.
+
+Company: {{ company.company_name }}
+Registration #: {{ company.registration_number }}
+Email: {{ company.company_email }}
+Plan: {{ company.get_subscription_plan_display }}
+Submitted: {{ company.submitted_at }}
+
+Review at: /admin-panel/recyclers/
+
+— RecyCleanHub

@@ -1,0 +1,9 @@
+Hello {{ company.contact_name }},
+
+Thank you for registering {{ company.company_name }} with RecyCleanHub.
+
+Your application is pending admin verification. We will email you when your account is approved and your company code is assigned.
+
+Submitted: {{ company.submitted_at }}
+
+— RecyCleanHub

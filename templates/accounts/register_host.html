@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Register as Host - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card shadow-lg">
+                <div class="card-header text-center py-4">
+                    <h2><i class="bi bi-shop-window"></i> Register as Drop-off Host</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.errors %}<div class="alert alert-danger">{{ form.errors }}</div>{% endif %}
+                        <div class="row g-3">
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">First name *</label>{{ form.first_name }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Last name *</label>{{ form.last_name }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Email *</label>{{ form.email }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Phone *</label>{{ form.phone }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Business name *</label>{{ form.business_name }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Business type *</label>{{ form.business_type }}</div>
+                            <div class="col-12 form-group-modern"><label class="form-label form-label-modern">Physical address *</label>{{ form.physical_address }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Opens *</label>{{ form.operating_hours_open }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Closes *</label>{{ form.operating_hours_close }}</div>
+                            <div class="col-12">
+                                <label class="form-label form-label-modern">Materials accepted *</label>
+                                <div class="d-flex flex-wrap gap-3">
+                                    {% for checkbox in form.materials_accepted %}
+                                    <div class="form-check">{{ checkbox.tag }} <label class="form-check-label">{{ checkbox.choice_label }}</label></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">M-Pesa number *</label>{{ form.mpesa_number }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">National ID *</label>{{ form.national_id_number }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">ID photo *</label>{{ form.national_id_photo }}</div>
+                            <div class="col-md-6 form-group-modern"><label class="form-label form-label-modern">Shopfront photo *</label>{{ form.shopfront_photo }}</div>
+                            <div class="col-md-6">{% include 'accounts/includes/password_field.html' with field=form.password1 label='Password *' %}</div>
+                            <div class="col-md-6">{% include 'accounts/includes/password_field.html' with field=form.password2 label='Confirm password *' %}</div>
+                        </div>
+                        <button type="submit" class="btn btn-eco-modern w-100 mt-4">Submit application</button>
+                        <p class="text-center mt-3 mb-0"><a href="{% url 'register' %}">← Back to role selection</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'accounts/includes/password_toggle_script.html' %}
+{% endblock %}

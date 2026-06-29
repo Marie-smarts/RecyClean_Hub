@@ -1,0 +1,57 @@
+{% extends 'aggregator/base.html' %}
+
+{% block title %}Pickup Detail - RecyCleanHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-3">
+        <a href="{% url 'aggregator_pickups' %}" class="text-decoration-none">&larr; Back to pickups</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h4 class="mb-0">{{ assignment.pickup_request.drop_off_center.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Address:</strong> {{ assignment.pickup_request.drop_off_center.address }}</p>
+                    <p><strong>Phone:</strong> {{ assignment.pickup_request.drop_off_center.phone }}</p>
+                    <p><strong>Scheduled:</strong> {{ assignment.pickup_request.scheduled_date|date:"M d, Y H:i" }}</p>
+                    <p><strong>Weight:</strong> {{ assignment.pickup_request.total_weight }} kg</p>
+                    <p><strong>Pickup fee:</strong> KES {{ assignment.pickup_request.pickup_fee|default:"0.00" }}</p>
+                    {% if assignment.pickup_request.notes %}
+                        <p><strong>Notes:</strong> {{ assignment.pickup_request.notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header"><h5 class="mb-0">Update status</h5></div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            {{ form.status }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Notes</label>
+                            {{ form.notes }}
+                        </div>
+                        <button type="submit" class="btn btn-eco w-100">Save</button>
+                    </form>
+                </div>
+            </div>
+            {% if not has_collection and assignment.status != 'cancelled' %}
+            <a href="{% url 'aggregator_log_collection' assignment.pk %}" class="btn btn-success w-100 btn-lg">
+                <i class="bi bi-journal-plus"></i> Log collection &amp; payment split
+            </a>
+            {% elif has_collection %}
+            <div class="alert alert-success mb-0">Collection logged for this pickup.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Login - EcoRecycle{% endblock %}
+{% block title %}Login - RecyCleanHub{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -32,6 +32,9 @@
                             <label for="id_password" class="form-label">Password</label>
                             <input type="password" name="password" class="form-control form-control-lg" 
                                    id="id_password" placeholder="Enter your password" required>
+                            <div class="text-end mt-2">
+                                <a href="{% url 'password_reset' %}" class="text-decoration-none small">Forgot password?</a>
+                            </div>
                         </div>
                         
                         <div class="d-grid gap-2">

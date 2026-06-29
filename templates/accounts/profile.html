@@ -1,40 +1,140 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Profile - EcoRecycle{% endblock %}
+{% block title %}Profile - RecyCleanHub{% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow">
-                <div class="card-header text-center py-4">
-                    <h2><i class="bi bi-person-circle"></i> My Profile</h2>
+        <div class="col-lg-9">
+
+            <!-- ============ PROFILE HEADER ============ -->
+            <div class="profile-header-card mb-4">
+                <div class="profile-cover"></div>
+                <div class="profile-header-content">
+                    <div class="profile-avatar-wrap">
+                        {% if profile.profile_image %}
+                            <img src="{{ profile.profile_image.url }}" alt="{{ user.get_full_name|default:user.username }}" class="profile-avatar">
+                        {% else %}
+                            <div class="profile-avatar profile-avatar-placeholder">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                        {% endif %}
+                        <label for="id_profile_image" class="avatar-edit-btn" title="Change photo">
+                            <i class="bi bi-camera-fill"></i>
+                        </label>
+                    </div>
+
+                    <div class="profile-identity">
+                        <h2 class="profile-name">{{ user.get_full_name|default:user.username }}</h2>
+                        <span class="role-badge">{{ profile.get_role_display }}</span>
+                        <p class="profile-meta">
+                            <i class="bi bi-geo-alt-fill"></i> {{ profile.address|default:"Location not set" }}
+                        </p>
+                        <p class="profile-meta">
+                            <i class="bi bi-telephone-fill"></i> {{ profile.phone|default:"No phone added" }}
+                        </p>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">{{ collections_count|default:"0" }}</span>
+                            <span class="stat-label">Collections</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ updates_count|default:"0" }}</span>
+                            <span class="stat-label">Updates</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ member_since|default:"2026" }}</span>
+                            <span class="stat-label">Member Since</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body p-4">
+            </div>
+
+            <!-- ============ TAB NAVIGATION ============ -->
+            <div class="profile-tabs mb-4">
+                <button class="profile-tab active" data-tab="updates">
+                    <i class="bi bi-grid-3x3-gap-fill"></i> Updates
+                </button>
+                <button class="profile-tab" data-tab="edit">
+                    <i class="bi bi-pencil-square"></i> Edit Profile
+                </button>
+            </div>
+
+            <!-- ============ UPDATES FEED TAB ============ -->
+            <div class="tab-panel" id="panel-updates">
+                <div class="updates-feed">
+
+                    {% for update in updates %}
+                    <div class="update-card">
+                        <div class="update-icon">
+                            <i class="bi bi-recycle"></i>
+                        </div>
+                        <div class="update-body">
+                            <p class="update-text">{{ update.text }}</p>
+                            <span class="update-time">{{ update.created_at|timesince }} ago</span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="empty-state-soft">
+                        <i class="bi bi-leaf"></i>
+                        <p>No updates yet.</p>
+                        <span>Your recycling activity will show up here once you get started.</span>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- ============ EDIT PROFILE TAB ============ -->
+            <div class="tab-panel d-none" id="panel-edit">
+                <div class="edit-card">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Phone Number</label>
+
+                        <div class="form-group-modern">
+                            <label class="form-label-modern">Phone Number</label>
                             {{ form.phone }}
                         </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Address</label>
+
+                        <div class="form-group-modern">
+                            <label class="form-label-modern">Address</label>
                             {{ form.address }}
                         </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label">Profile Picture</label>
+
+                        <div class="form-group-modern">
+                            <label class="form-label-modern">Profile Picture</label>
                             {{ form.profile_image }}
                         </div>
-                        
-                        <button type="submit" class="btn btn-eco">Update Profile</button>
+
+                        <button type="submit" class="btn-eco-modern">Save Changes</button>
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.querySelectorAll('.profile-tab');
+    const panels = {
+        updates: document.getElementById('panel-updates'),
+        edit: document.getElementById('panel-edit')
+    };
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            Object.values(panels).forEach(p => p.classList.add('d-none'));
+            panels[this.dataset.tab].classList.remove('d-none');
+        });
+    });
+});
+</script>
 {% endblock %}
